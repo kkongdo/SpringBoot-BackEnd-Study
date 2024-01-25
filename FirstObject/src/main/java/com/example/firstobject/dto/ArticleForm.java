@@ -4,10 +4,9 @@ import com.example.firstobject.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
-@ToString
+@Data
 public class ArticleForm {
     private String title;
     private String content;

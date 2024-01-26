@@ -21,6 +21,6 @@ public class Member {
     @Column
     private String email;
     @Column
-    private int password;
+    private Long password;
 
 }

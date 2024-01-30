@@ -3,6 +3,7 @@ package com.example.firstobject.api;
 import com.example.firstobject.dto.CoffeeForm;
 import com.example.firstobject.entity.Coffee;
 import com.example.firstobject.repository.CoffeeRepository;
+import com.example.firstobject.service.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,47 +14,39 @@ import java.util.List;
 @RestController
 public class CoffeeApiController {
     @Autowired
-    CoffeeRepository coffeeRepository;
+    CoffeeService coffeeService;
 
     @GetMapping("/api/coffees")
     public List<Coffee> showAll(){
-        return  coffeeRepository.findAll();
+        return  coffeeService.showAll();
     }
 
     @GetMapping("/api/coffees/{id}")
     public Coffee show(@PathVariable Long id){
-        return coffeeRepository.findById(id).orElse(null);
+        return coffeeService.show(id);
     }
 
     @PostMapping("/api/coffees")
-    public Coffee create(@RequestBody CoffeeForm form){
-        Coffee coffee = form.toEntity();
-       return  coffeeRepository.save(coffee);
+    public ResponseEntity<Coffee> create(@RequestBody CoffeeForm form){
+        Coffee coffee = coffeeService.create(form);
+        return coffee != null ?
+                ResponseEntity.status(HttpStatus.OK).body(coffee) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PatchMapping("/api/coffees/{id}")
     public ResponseEntity<Coffee> update(@PathVariable Long id, @RequestBody CoffeeForm form){
-        Coffee coffee = coffeeRepository.findById(id).orElse(null);
-        Coffee target = form.toEntity();
-        if(target.getId() != id || coffee == null){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(null);
-        }
-        target.patch(coffee);
-        Coffee save = coffeeRepository.save(target);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(save);
+        Coffee updated = coffeeService.update(id, form);
+        return updated != null ?
+                ResponseEntity.status(HttpStatus.OK).body(updated) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     @DeleteMapping("/api/coffees/{id}")
     public ResponseEntity<Coffee> delete(@PathVariable Long id){
-        Coffee coffee = coffeeRepository.findById(id).orElse(null);
-        if(coffee == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        coffeeRepository.delete(coffee);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Coffee deleted = coffeeService.delete(id);
+        return deleted != null ?
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 }

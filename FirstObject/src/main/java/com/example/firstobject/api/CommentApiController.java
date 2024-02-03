@@ -1,8 +1,6 @@
 package com.example.firstobject.api;
 
 import com.example.firstobject.dto.CommentDto;
-import com.example.firstobject.entity.Article;
-import com.example.firstobject.entity.Comment;
 import com.example.firstobject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +18,6 @@ public class CommentApiController {
     public ResponseEntity<List<CommentDto>> comments(@PathVariable Long articleId){
         // 서비스에 위임
         List<CommentDto> dtos = commentService.comments(articleId);
-
         // 결과 응답
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }

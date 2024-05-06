@@ -27,6 +27,7 @@ public class ArticleApiController {
     public Article show(@PathVariable Long id){
         return articleService.show(id);
     }
+
     //POST
     @PostMapping("/api/articles")
     public ResponseEntity<Article> create(@RequestBody ArticleForm articleForm){
@@ -35,6 +36,7 @@ public class ArticleApiController {
                 ResponseEntity.status(HttpStatus.OK).body(created) :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     //PATCH
     @PatchMapping("/api/articles/{id}")
     public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm articleForm){
@@ -43,6 +45,7 @@ public class ArticleApiController {
                ResponseEntity.status(HttpStatus.OK).body(update):
                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     //DELETE
     @DeleteMapping("/api/articles/{id}")
     public ResponseEntity<Article> delete(@PathVariable Long id){

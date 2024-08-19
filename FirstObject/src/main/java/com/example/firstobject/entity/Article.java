@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 @Data
 public class Article {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Id
     private Long id;
     @Column

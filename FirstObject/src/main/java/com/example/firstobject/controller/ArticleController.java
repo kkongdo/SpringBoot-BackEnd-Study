@@ -49,10 +49,10 @@ public class ArticleController {
     public String show(@PathVariable Long id, Model model){
         log.info("id = " + id);
         // 1. id를 조회해 데이터 가져오기
-        Article articleEntity = articleRepository.findById(id).orElse(null);
+        Article article = articleRepository.findById(id).orElse(null);
         List<CommentDto> commentsDtos = commentService.comments(id);
         // 2. 모델에 데이터 등록하기
-        model.addAttribute("article", articleEntity);
+        model.addAttribute("article", article);
         model.addAttribute("commentDtos", commentsDtos);
         // 3. 뷰 페이지 반환하기
         return "articles/show";
